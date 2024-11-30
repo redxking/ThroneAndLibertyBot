@@ -1,5 +1,3 @@
-Here’s a corrected version of the README.md with a properly formatted directory structure and a note about the game window title:
-
 # Throne and Liberty Bot
 
 This project is a reinforcement learning-based bot designed to play the game *Throne and Liberty*. The bot leverages object detection, screen captures, and interaction automation to navigate and interact with the game environment.
