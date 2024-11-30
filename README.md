@@ -1,8 +1,12 @@
-ThroneAndLibertyBot
+Here’s a corrected version of the README.md with a properly formatted directory structure and a note about the game window title:
 
-This project is a reinforcement learning-based bot designed to play the game Throne and Liberty. The bot leverages object detection, screen captures, and interaction automation to navigate and interact with the game environment.
+# Throne and Liberty Bot
 
-Directory Structure
+This project is a reinforcement learning-based bot designed to play the game *Throne and Liberty*. The bot leverages object detection, screen captures, and interaction automation to navigate and interact with the game environment.
+
+---
+
+## Directory Structure
 
 ThroneAndLibertyBot/
 │
@@ -22,30 +26,36 @@ ThroneAndLibertyBot/
 ├── main.py                   # Main entry point for training the bot
 ├── README.md                 # Project documentation
 ├── requirements.txt          # Python dependencies
-└── game_window.png           # Example screenshot of the game window
+├── game_window.png           # Example screenshot of the game window
 
-Setup Instructions
+---
 
-1. Prerequisites
+## Setup Instructions
 
-	•	Install Python (version 3.8 or above recommended).
-	•	Install the following dependencies using pip:
+### 1. Prerequisites
 
+- Install Python (version 3.8 or above recommended).
+- Install the required dependencies using pip:
+
+```bash
 pip install -r requirements.txt
-
-
 
 2. Setting Up the Game Environment
 
-Ensure the game Throne and Liberty is running in windowed mode with the title TL 1.261.22.810. This allows the bot to interact with the game window directly.
+	•	Ensure the game Throne and Liberty is running in windowed mode.
+	•	The game window title must match the current game version. For example:
+
+TL 1.261.22.810
+
+Update the focus_window.py script if the game window title changes in future versions.
 
 3. Configuring Health Bar Coordinates
 
-Before running the bot, validate the health bar coordinates using health_bar_test.py to ensure the bot correctly detects the player and enemy health bars.
+Before running the bot, validate the health bar coordinates to ensure accurate detection of the player and enemy health bars:
 
 python utilities/health_bar_test.py
 
-Adjust the coordinates in throne_env.py if necessary.
+	•	Adjust the coordinates in throne_env.py if the detection is incorrect.
 
 4. Running the Bot
 
@@ -61,16 +71,14 @@ File Descriptions
 	•	Key Functions:
 	•	train_ppo(): Sets up the PPO model and starts the training process.
 	•	Wraps the custom gym environment ThroneAndLibertyEnv.
-	•	Uses a TQDM progress bar for real-time training updates.
+	•	Uses a TQDM progress bar for real-time updates during training.
 	•	Saves the trained model to the data/models directory.
-	•	Dependencies: Stable-Baselines3, custom throne_env.py.
 
 2. agents/dqn_agent.py
 
 	•	Purpose: Implements the Deep Q-Learning (DQN) algorithm for training the bot as an alternative to PPO.
 	•	Key Functions:
 	•	train_dqn(): Configures and trains the bot using the DQN algorithm.
-	•	Dependencies: Stable-Baselines3, custom throne_env.py.
 
 3. environments/throne_env.py
 
@@ -97,19 +105,18 @@ File Descriptions
 	•	Purpose: Sends inputs to the game to simulate bot actions.
 	•	Key Functions:
 	•	perform_action(action, window_title): Maps an action to a corresponding key or mouse event and sends it to the game window.
-	•	Includes a delay to prevent spamming.
 
 6. utilities/screen_capture.py
 
 	•	Purpose: Captures the game screen for processing and observation.
 	•	Key Function:
-	•	capture_game_window(): Captures the game window without including the title bar and resizes the image to match the observation space.
+	•	capture_game_window(): Captures the game window and resizes the image to match the observation space.
 
 7. utilities/health_bar_test.py
 
-	•	Purpose: Validates the detection of the player and enemy health bars.
+	•	Purpose: Validates the detection of player and enemy health bars.
 	•	Key Components:
-	•	Extracts and saves regions of interest (ROIs) for health bars to ensure coordinates are correct.
+	•	Extracts and saves regions of interest (ROIs) for health bars.
 	•	Displays the captured health bars for visual confirmation.
 
 8. main.py
@@ -138,7 +145,7 @@ Usage Notes
 	1.	Health Bar Validation:
 	•	Ensure the health bar coordinates in throne_env.py are correct for your screen resolution by running health_bar_test.py.
 	2.	Debugging Navigation:
-	•	If the bot frequently gets stuck or behaves unexpectedly, check _calculate_reward and _is_stuck in throne_env.py for logic issues.
+	•	If the bot frequently gets stuck, check _calculate_reward and _is_stuck in throne_env.py for logic issues.
 	3.	Action Mapping:
 	•	Update input_handler.py if new actions are added to the bot’s capabilities.
 	4.	Training Output:
@@ -146,10 +153,11 @@ Usage Notes
 
 Future Enhancements
 
-	•	Obstacle Avoidance:
+	1.	Obstacle Avoidance:
 	•	Implement logic to detect and navigate around obstacles in the environment.
-	•	Camera Angle Normalization:
-	•	Ensure the bot can maintain a consistent camera angle for better navigation.
-	•	Expanded Goals:
+	2.	Camera Angle Normalization:
+	•	Ensure the bot maintains a consistent camera angle for better navigation.
+	3.	Expanded Goals:
 	•	Add objectives like quest completion or resource collection.
 
+This format renders the directory structure correctly and includes the required note about ensuring the game window title matches the current game version. Let me know if you'd like additional edits!
