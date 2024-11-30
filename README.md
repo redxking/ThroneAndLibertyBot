@@ -153,4 +153,3 @@ Future Enhancements
 	•	Expanded Goals:
 	•	Add objectives like quest completion or resource collection.
 
-Let me know if you need further clarifications or additional sections for the README!
