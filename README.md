@@ -4,6 +4,8 @@
 
 **ThroneAndLibertyBot** is an AI-driven bot designed to play the MMORPG *Throne and Liberty*. It leverages machine learning, reinforcement learning (RL), and computer vision to navigate the game world, interact with in-game objects, and complete tasks autonomously. The bot uses the Proximal Policy Optimization (PPO) algorithm for learning optimal strategies and performs real-time actions in response to game states.
 
+---
+
 ## Goals
 
 - Automate gameplay, including navigation, combat, and task completion.
@@ -70,13 +72,9 @@ Here’s an explanation of the bot’s directory structure and its components:
     - Calculates rewards for actions based on combat, movement, and task completion.
     - Penalizes undesirable states, such as low health or inability to move.
 
----
-
-### **Data and Configuration**
-- **Key Files**:
-    - `key_map.json`: Stores in-game key bindings.
-    - `tasks.json`: Defines tasks for the bot to complete.
-    - `coordinates.json`: Stores fixed in-game map coordinates for navigation.
+11. **`combat_manager.py`**:
+    - Handles combat logic and calculates rewards based on target health changes.
+    - Rewards significant damage, kills, and weakening the target.
 
 ---
 
@@ -124,5 +122,3 @@ Here’s an explanation of the bot’s directory structure and its components:
 - **Reinforcement Learning**: Learns optimal gameplay strategies using PPO.
 - **Modular Design**: Separate components for movement, combat, rewards, and navigation.
 - **Error Handling**: Resilient to unexpected scenarios like being stuck or dying.
-
-This README serves as a guide to understanding the bot’s structure and functionality. For additional help, refer to the comments within each file or the documentation in `README.md`.
