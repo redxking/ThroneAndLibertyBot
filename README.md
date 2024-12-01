@@ -1,161 +1,128 @@
-# Throne and Liberty Bot
+# ThroneAndLibertyBot: README
 
-This project is a reinforcement learning-based bot designed to play the game *Throne and Liberty*. The bot leverages object detection, screen captures, and interaction automation to navigate and interact with the game environment.
+## Overview
+
+**ThroneAndLibertyBot** is an AI-driven bot designed to play the MMORPG *Throne and Liberty*. It leverages machine learning, reinforcement learning (RL), and computer vision to navigate the game world, interact with in-game objects, and complete tasks autonomously. The bot uses the Proximal Policy Optimization (PPO) algorithm for learning optimal strategies and performs real-time actions in response to game states.
+
+## Goals
+
+- Automate gameplay, including navigation, combat, and task completion.
+- Learn from game states and improve performance using reinforcement learning.
+- Mimic human-like behaviors and decisions.
+- Handle scenarios like getting stuck or dying and resuming tasks intelligently.
 
 ---
 
 ## Directory Structure
 
-ThroneAndLibertyBot/
-│
-├── agents/
-│   ├── ppo_agent.py          # PPO reinforcement learning agent
-│   ├── dqn_agent.py          # DQN reinforcement learning agent
-│
-├── environments/
-│   ├── throne_env.py         # Custom gym environment for the game
-│
-├── utilities/
-│   ├── focus_window.py       # Ensures the game window is active
-│   ├── input_handler.py      # Sends key and mouse inputs to the game
-│   ├── screen_capture.py     # Captures screenshots of the game window
-│   ├── health_bar_test.py    # Tests and validates the health bar coordinates
-│
-├── main.py                   # Main entry point for training the bot
-├── README.md                 # Project documentation
-├── requirements.txt          # Python dependencies
-├── game_window.png           # Example screenshot of the game window
+Here’s an explanation of the bot’s directory structure and its components:
+
+### **Main Files**
+1. **`main.py`**: The entry point of the bot. Handles training and testing of the PPO agent. It initializes the environment and starts the reinforcement learning process using the `ppo_agent.py` module.
 
 ---
 
-## Setup Instructions
+### **Environment**
+2. **`throne_env.py`**: Defines the custom OpenAI Gym environment for *Throne and Liberty*. 
+    - Manages HUD processing, action execution, and reward calculation.
+    - Maps discrete actions (e.g., movement, combat) to corresponding in-game actions.
+    - Tracks game state and terminates episodes when necessary.
 
-### 1. Prerequisites
+---
 
-- Install Python (version 3.8 or above recommended).
-- Install the required dependencies using pip:
+### **Reinforcement Learning**
+3. **`ppo_agent.py`**:
+    - Implements the PPO algorithm using Stable-Baselines3.
+    - Defines training and testing routines for the bot.
+    - Uses callbacks to track training progress.
 
-```bash
-pip install -r requirements.txt
+---
 
-2. Setting Up the Game Environment
+### **Utilities**
+4. **`focus_window.py`**:
+    - Ensures the game window is active and captures screenshots for debugging.
+    - Functions include bringing the game to the foreground and verifying focus.
 
-	•	Ensure the game Throne and Liberty is running in windowed mode.
-	•	The game window title must match the current game version. For example:
+5. **`input_handler.py`**:
+    - Simulates in-game actions using `pyautogui`.
+    - Supports actions like movement, combat, and skill usage.
 
-TL 1.261.22.810
+6. **`screen_capture.py`**:
+    - Captures screenshots of the game screen or specific regions.
+    - Helps extract observations for HUD analysis and model input.
 
-Update the focus_window.py script if the game window title changes in future versions.
+---
 
-3. Configuring Health Bar Coordinates
+### **Managers**
+7. **`hud_manager.py`**:
+    - Processes the game’s HUD (Heads-Up Display) to extract data like player health, target health, and other visual elements.
+    - Calculates health percentages using image processing techniques.
 
-Before running the bot, validate the health bar coordinates to ensure accurate detection of the player and enemy health bars:
+8. **`movement_manager.py`**:
+    - Tracks player movement and ensures meaningful progress.
+    - Provides rewards for significant movement and penalizes idle states.
 
-python utilities/health_bar_test.py
+9. **`navigation_manager.py`**:
+    - Handles pathfinding and navigation.
+    - Includes logic to resolve "stuck" scenarios.
 
-	•	Adjust the coordinates in throne_env.py if the detection is incorrect.
+10. **`reward_manager.py`**:
+    - Calculates rewards for actions based on combat, movement, and task completion.
+    - Penalizes undesirable states, such as low health or inability to move.
 
-4. Running the Bot
+---
 
-To start training the bot using the PPO algorithm, run:
+### **Data and Configuration**
+- **Key Files**:
+    - `key_map.json`: Stores in-game key bindings.
+    - `tasks.json`: Defines tasks for the bot to complete.
+    - `coordinates.json`: Stores fixed in-game map coordinates for navigation.
 
-python main.py
+---
 
-File Descriptions
+## How It Works
 
-1. agents/ppo_agent.py
+1. **Environment Initialization**:
+   - The bot initializes the *Throne and Liberty* game environment (`ThroneAndLibertyEnv`) with observation and action spaces.
 
-	•	Purpose: Implements the Proximal Policy Optimization (PPO) algorithm for training the bot.
-	•	Key Functions:
-	•	train_ppo(): Sets up the PPO model and starts the training process.
-	•	Wraps the custom gym environment ThroneAndLibertyEnv.
-	•	Uses a TQDM progress bar for real-time updates during training.
-	•	Saves the trained model to the data/models directory.
+2. **Observation**:
+   - Screenshots are captured in real-time, and the HUD is analyzed to extract game state information (e.g., health, target status).
 
-2. agents/dqn_agent.py
+3. **Action**:
+   - Actions (e.g., movement, combat) are executed based on the PPO policy learned during training.
 
-	•	Purpose: Implements the Deep Q-Learning (DQN) algorithm for training the bot as an alternative to PPO.
-	•	Key Functions:
-	•	train_dqn(): Configures and trains the bot using the DQN algorithm.
+4. **Reward Calculation**:
+   - Rewards are computed based on in-game progress, combat success, and movement effectiveness.
 
-3. environments/throne_env.py
+5. **Training**:
+   - The PPO agent learns from interactions with the game, optimizing its policy for future decisions.
 
-	•	Purpose: Defines the custom OpenAI Gym/Gymnasium environment for Throne and Liberty.
-	•	Key Components:
-	•	__init__: Initializes the observation space (grayscale screen captures) and action space (discrete actions like movement, attacks).
-	•	_get_state: Captures and processes the game screen into the observation space.
-	•	_calculate_reward: Defines the reward system based on:
-	•	Enemy health reduction (positive reward).
-	•	Player health loss (penalty).
-	•	Survival and death conditions.
-	•	_is_stuck: Checks if the bot is stuck based on repeated positions.
-	•	reset: Resets the environment at the start of each episode.
-	•	step: Executes an action, calculates rewards, and checks for termination.
+6. **Testing**:
+   - The trained model is tested to evaluate performance and refine strategies.
 
-4. utilities/focus_window.py
+---
 
-	•	Purpose: Ensures the Throne and Liberty game window is active and focused.
-	•	Key Function:
-	•	focus_game_window(window_title): Finds and activates the game window using pygetwindow.
+## Getting Started
 
-5. utilities/input_handler.py
+1. **Dependencies**:
+   - Install required libraries using `pip install -r requirements.txt`.
 
-	•	Purpose: Sends inputs to the game to simulate bot actions.
-	•	Key Functions:
-	•	perform_action(action, window_title): Maps an action to a corresponding key or mouse event and sends it to the game window.
+2. **Run Training**:
+   - Execute `main.py` to start training the bot.
 
-6. utilities/screen_capture.py
+3. **Run Testing**:
+   - Use the `test_ppo` function in `main.py` to test the trained model.
 
-	•	Purpose: Captures the game screen for processing and observation.
-	•	Key Function:
-	•	capture_game_window(): Captures the game window and resizes the image to match the observation space.
+4. **Debugging**:
+   - Logs and screenshots are generated for analysis and debugging.
 
-7. utilities/health_bar_test.py
+---
 
-	•	Purpose: Validates the detection of player and enemy health bars.
-	•	Key Components:
-	•	Extracts and saves regions of interest (ROIs) for health bars.
-	•	Displays the captured health bars for visual confirmation.
+## Key Features
 
-8. main.py
+- **Dynamic HUD Processing**: Extracts vital in-game data using computer vision.
+- **Reinforcement Learning**: Learns optimal gameplay strategies using PPO.
+- **Modular Design**: Separate components for movement, combat, rewards, and navigation.
+- **Error Handling**: Resilient to unexpected scenarios like being stuck or dying.
 
-	•	Purpose: Entry point for the bot’s training process.
-	•	Key Components:
-	•	Imports train_ppo() from ppo_agent.py to start training.
-	•	Prints training progress and completion messages.
-
-9. requirements.txt
-
-	•	Purpose: Lists the Python dependencies required for the bot.
-	•	Dependencies:
-	•	stable-baselines3: Reinforcement learning algorithms.
-	•	opencv-python: Image processing.
-	•	numpy: Numerical computations.
-	•	mss: Screen capture.
-	•	pygetwindow: Window focus and activation.
-
-10. game_window.png
-
-	•	Purpose: Example screenshot of the game window to help validate screen captures and coordinate detection.
-
-Usage Notes
-
-	1.	Health Bar Validation:
-	•	Ensure the health bar coordinates in throne_env.py are correct for your screen resolution by running health_bar_test.py.
-	2.	Debugging Navigation:
-	•	If the bot frequently gets stuck, check _calculate_reward and _is_stuck in throne_env.py for logic issues.
-	3.	Action Mapping:
-	•	Update input_handler.py if new actions are added to the bot’s capabilities.
-	4.	Training Output:
-	•	The trained model is saved in data/models. Use it to evaluate or test the bot’s performance in the game.
-
-Future Enhancements
-
-	1.	Obstacle Avoidance:
-	•	Implement logic to detect and navigate around obstacles in the environment.
-	2.	Camera Angle Normalization:
-	•	Ensure the bot maintains a consistent camera angle for better navigation.
-	3.	Expanded Goals:
-	•	Add objectives like quest completion or resource collection.
-
-This format renders the directory structure correctly and includes the required note about ensuring the game window title matches the current game version. Let me know if you'd like additional edits!
+This README serves as a guide to understanding the bot’s structure and functionality. For additional help, refer to the comments within each file or the documentation in `README.md`.
