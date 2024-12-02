@@ -1,8 +1,15 @@
+# environments/combat_manager.py
 class CombatManager:
     """
     Manages combat-related calculations and rewards.
     """
     def __init__(self):
+        self.previous_target_health = None
+
+    def reset(self):
+        """
+        Reset the combat manager's state for a new episode.
+        """
         self.previous_target_health = None
 
     def calculate_combat_reward(self, current_health):
