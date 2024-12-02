@@ -1,3 +1,4 @@
+# environments/movement_manager.py
 import numpy as np
 
 
@@ -6,6 +7,12 @@ class MovementManager:
     Tracks and rewards meaningful player movement.
     """
     def __init__(self):
+        self.position_history = []
+
+    def reset(self):
+        """
+        Reset the movement manager's state for a new episode.
+        """
         self.position_history = []
 
     def update_position(self, position):
@@ -35,3 +42,4 @@ class MovementManager:
             elif distance_moved < 2:
                 return -5  # Penalty for being idle or stuck
         return 0
+
