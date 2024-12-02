@@ -37,6 +37,10 @@ class ThroneAndLibertyEnv(gym.Env):
     def step(self, action):
         try:
             # Map and execute the action
+            if action is None:
+                current_position = self._get_player_position()
+                movement_action = self.movement_manager.move_toward(current_position)
+                action = self._map_action_name_to_index(movement_action)
             action_name = self._map_action(action)
             logging.info(f"Performing action: {action_name}")
             perform_action(action_name, window_title="TL 1.261.22.810")
@@ -56,6 +60,13 @@ class ThroneAndLibertyEnv(gym.Env):
         except Exception as e:
             logging.error(f"Error during step execution: {e}")
             return self.observation_space.sample(), -10, True, False, {}
+
+    def _get_player_position(self):
+        """
+        Placeholder to retrieve the player's current position.
+        Replace this with logic to detect the position from the HUD or other sources.
+        """
+        return (0, 0)  # Example position
 
     def _get_state(self):
         """
