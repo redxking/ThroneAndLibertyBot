@@ -44,6 +44,10 @@ class ThroneAndLibertyEnv(gym.Env):
             # Get the current state
             state = self._get_state()
 
+            # Check if a new target is acquired
+            if state["target_hud_data"].get("health", 1.0) > 0 and not self.combat_manager.target_killed:
+                self.combat_manager.target_acquired()
+
             # Calculate reward and check if the episode is done
             reward = self.reward_manager.calculate_reward(state)
             terminated = self._check_done(state)
