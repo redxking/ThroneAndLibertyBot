@@ -15,8 +15,11 @@
 
 ---
 
-## Directory Structure
+## **My Status**
+I am working on this project daily. I am not a developer and am learning as I go. The ultimate goal is to teach this bot to learn all aspects of the game and perform like a human would. Things are a little broken right now, but I am making daily updates as I attempt to figure things out. This is a journey of experimentation, learning, and gradual improvement.
 
+---
+## Directory Structure
 Here’s an explanation of the bot’s directory structure and its components:
 
 ### **Main Files**
