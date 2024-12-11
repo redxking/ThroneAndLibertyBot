@@ -8,7 +8,7 @@ import logging
 logging.basicConfig(level=logging.INFO)
 
 
-def focus_game_window(window_title="TL 1.261.22.810"):
+def focus_game_window(window_title="TL 1.281.22.935"):
     """
     Ensures the specified game window is focused and captures an adjusted screenshot
     for visual confirmation.
@@ -56,7 +56,7 @@ def focus_game_window(window_title="TL 1.261.22.810"):
         return False
 
 
-def bring_window_to_front(window_title="TL 1.261.22.810"):
+def bring_window_to_front(window_title="TL 1.281.22.935"):
     """
     Bring the game window to the front if it's minimized.
 
@@ -80,7 +80,7 @@ def bring_window_to_front(window_title="TL 1.261.22.810"):
         return False
 
 
-def verify_window_focus(window_title="TL 1.261.22.810"):
+def verify_window_focus(window_title="TL 1.281.22.935"):
     """
     Verify that the game window is focused and ready for input.
 
@@ -100,7 +100,7 @@ def verify_window_focus(window_title="TL 1.261.22.810"):
         return False
 
 
-def ensure_game_window_focused(window_title="TL 1.261.22.810"):
+def ensure_game_window_focused(window_title="TL 1.281.22.935"):
     """
     Ensures the specified game window is focused and active.
 

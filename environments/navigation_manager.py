@@ -1,3 +1,5 @@
+# envirmonments/navagation_manager.py
+
 class NavigationManager:
     """
     Handles navigation tasks, including pathfinding and unstuck logic.

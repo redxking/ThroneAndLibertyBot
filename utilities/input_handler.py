@@ -2,7 +2,7 @@
 import pyautogui
 import time
 import logging
-
+import pygetwindow as gw
 # Configure logging
 logging.basicConfig(level=logging.INFO)
 
@@ -31,40 +31,68 @@ def hold_key(key, duration=1):
         logging.error(f"Error holding key {key}: {e}")
         raise
 
-def perform_action(action, window_title=None):
+def perform_action(action_name, window_title="TL 1.281.22.935"):
     """
-    Performs a specific action by simulating input.
-    """
-    actions = {
-        "move_forward": lambda: hold_key("w", duration=1),
-        "move_backward": lambda: hold_key("s", duration=1),
-        "move_left": lambda: hold_key("a", duration=1),
-        "move_right": lambda: hold_key("d", duration=1),
-        "jump": lambda: press_key("space"),
-        "attack": lambda: press_key("e"),
-        "find_target": lambda: press_key("tab"),
-        "use_skill_1": lambda: press_key("1"),
-        "use_skill_2": lambda: press_key("2"),
-        "use_skill_3": lambda: press_key("3"),
-        "use_skill_4": lambda: press_key("4"),
-        "rotate_left": lambda: hold_key("left", duration=0.5),
-        "rotate_slow_right": lambda: hold_key("right", duration=0.5),
-    }
+    Executes the specified action in the game window.
 
+    Args:
+        action_name (str): The action to perform.
+        window_title (str): The title of the game window.
+    """
     try:
-        if window_title:
-            from utilities.focus_window import ensure_game_window_focused
-            focused = ensure_game_window_focused(window_title)
-            if not focused:
-                logging.error(f"Failed to focus on window: {window_title}")
-                return
+        # Bring the game window to the foreground
+        windows = gw.getWindowsWithTitle(window_title)
+        if not windows:
+            logging.error(f"No window found with title '{window_title}'.")
+            return
+        window = windows[0]
+        if window.isMinimized:
+            window.restore()
+        window.activate()
+        time.sleep(0.1)  # Allow some time for the window to activate
 
-        if action in actions:
-            logging.info(f"Performing action: {action}")
-            actions[action]()
+        # Define action mappings
+        action_mappings = {
+            "move_forward": 'w',
+            "move_backward": 's',
+            "move_left": 'a',
+            "move_right": 'd',
+            "jump": 'space',
+            "camera_up": 'up',  # Move camera angle up
+            "camera_down": 'down',  # Move camera angle down
+            "camera_left": 'left',  # Move camera angle left
+            "camera_right": 'right',  # Move camera angle right
+            "attack": 'leftclick',  # Perform attack
+            "use_skill_1": '1',  # Cast skill 1
+            "use_skill_2": '2',  # Cast skill 2
+            "use_skill_3": '3',  # Cast skill 3
+            "use_skill_4": '4',  # Cast skill 4
+            "find_target": 'tab',  # Tab to find a target
+            "interact": 'f'  # Interact with objects
+        }
+
+        keys = action_mappings.get(action_name, None)
+        if keys is None:
+            logging.warning(f"Unknown action '{action_name}'.")
+            return
+
+        if isinstance(keys, list):
+            for key in keys:
+                if key == 'leftclick':
+                    pyautogui.click(button='left')
+                else:
+                    pyautogui.keyDown(key)
+            time.sleep(0.1)  # Duration to hold the keys
+            for key in keys:
+                if key != 'leftclick':
+                    pyautogui.keyUp(key)
         else:
-            logging.error(f"Unknown action: {action}")
-            raise ValueError(f"Unknown action: {action}")
+            if keys == 'leftclick':
+                pyautogui.click(button='left')
+            else:
+                pyautogui.keyDown(keys)
+                time.sleep(0.1)
+                pyautogui.keyUp(keys)
+
     except Exception as e:
-        logging.error(f"Error performing action {action}: {e}")
-        raise
+        logging.error(f"Error performing action '{action_name}': {e}")
