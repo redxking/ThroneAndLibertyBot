@@ -16,7 +16,16 @@
 ---
 
 ## **My Status**
-I am working on this project daily. I am not a developer and am learning as I go. The ultimate goal is to teach this bot to learn all aspects of the game and perform like a human would. Things are a little broken right now, but I am making daily updates as I attempt to figure things out. This is a journey of experimentation, learning, and gradual improvement.
+Dec 11 2024: To continue with the reinforcement learning approach, I delved into some reading and discovered that I can set up multiple channels for the bot to learn about various aspects of its environment. Here’s a list of tasks I need to prioritize to start:
+
+1. Target Identification: (Can we teach the bot to identify targets on the screen using the Tab key, similar to how humans do?)
+2. Terrain Types: (Identify and distinguish between different types of terrain, such as water, grass, sand, and rock.)
+3. Correctly Monitor Player and Target Health: (Develop a system to monitor the health of both players and targets accurately.)
+4. Blocking Animation: (Identify and execute blocking animations, including how to detect them and use the skill effectively.)
+5. Navigation: (Teach the bot to recognize and navigate through each section of the map. Ensure it understands how to move around different areas.)
+6. Questing and Contracts: (Develop the ability for the bot to identify and interact with different types of injectives present in the game.)
+
+The ultimate goal is to achieve this using reinforcement learning. While YOLO might be a more suitable approach initially, we aim to build this system to the point where it functions like a human, comprehending all aspects of the game without resorting to hacking the memory or any other unauthorized methods of injection.
 
 ---
 ## Directory Structure
