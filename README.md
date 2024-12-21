@@ -1,3 +1,5 @@
+THIS PROJECT IS NO LONGER BEING UPDATED
+
 # ThroneAndLibertyBot: README
 
 ## Overview
